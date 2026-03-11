@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Интерактивное поздравление</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>🌷 Создай поздравление 🌷</h1>
+
+<input type="text" id="name" placeholder="Имя">
+
+<select id="role">
+    <option value="мама">Мама</option>
+    <option value="сестра">Сестра</option>
+</select>
+<button onclick="generate()">Создать</button>
+
+<div id="output"></div>
+<script src="script.js"></script>
+
+
+
+
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интерактивное поздравление с 8 марта</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #ffe6f0 0%, #ffd9e8 100%);
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .floating-emoji-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 40px;
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3),
+                        inset 0 0 30px rgba(255, 255, 255, 0.8);
+            padding: 2.5rem 3rem;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #ffb6c1;
+            animation: gentleGlow 3s infinite alternate;
+        }
+
+        @keyframes gentleGlow {
+            from { box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3), inset 0 0 20px #fff9; }
+            to { box-shadow: 0 20px 40px rgba(255, 20, 147, 0.4), inset 0 0 40px #fff; }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: #c71585;
+            text-shadow: 3px 3px 0 #ffe4ec, 0 0 10px #ffb6c1;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        input, select, button {
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border-radius: 50px;
+            border: 2px solid #ffa07a;
+            background-color: #fff0f5;
+            transition: all 0.3s;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(255, 127, 80, 0.2);
+            outline: none;
+            color: #8b4513;
+            font-weight: 500;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff1493;
+            box-shadow: 0 0 15px #ffb6c1;
+        }
+
+        button {
+            background: #ffb6c1;
+            border: 2px solid #ff69b4;
+            color: #8b1a4b;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 0 #db7090;
+            transform: translateY(0);
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #ffa5b9;
+            box-shadow: 0 7px 0 #db7090;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            box-shadow: 0 2px 0 #db7090;
+            transform: translateY(3px);
+        }
+
+        .output {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 240, 245, 0.9);
+            border-radius: 30px;
+            border: 2px dashed #ff69b4;
+            font-size: 1.5rem;
+            color: #b0306e;
+            text-shadow: 2px 2px 0 #ffe4e1;
+            word-wrap: break-word;
+            box-shadow: inset 0 0 20px #fff0f5;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .emoji-float {
+            position: absolute;
+            font-size: 2rem;
+            user-select: none;
+            animation: float linear infinite;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 5px #ffb6c1);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        body::before {
+            content: "🌸🌼🌺";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+            rotate: -15deg;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body::after {
+            content: "🌷🌹🌷";
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            opacity: 0.3;
+            rotate: 10deg;
+            pointer-events: none;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-emoji-container" id="emojiContainer"></div>
+    <div class="content">
+        <h1>🌷 Создай поздравление 🌷</h1>
+        <input type="text" id="name" placeholder="Имя">
+        <select id="role">
+            <option value="мама">Мама</option>
+            <option value="сестра">Сестра</option>
+            <option value="подруга">Подруга</option>
+            <option value="коллега">Коллега</option>
+        </select>
+        <button onclick="generate()">Создать поздравление</button>
+        <div id="output" class="output"></div>
+    </div>
+
+    <script>
+        function generate() {
+            const name = document.getElementById('name').value.trim();
+            const role = document.getElementById('role').value;
+            const outputDiv = document.getElementById('output');
+
+            const safeName = name || 'Дорогая';
+
+            const greetings = [
+                `🌷 С 8 марта, ${safeName}! Ты самая замечательная ${role} в мире! Пусть каждый день дарит улыбки и цветы! 💐`,
+                `🌸 Дорогая ${safeName}! Поздравляю с Международным женским днём! Оставайся такой же красивой и нежной, как первые весенние цветы. С любовью, твоя(й) ${role} 💖`,
+                `🌺 ${safeName}, с праздником весны! Желаю тебе море счастья, океан любви и исполнения самых заветных желаний. Ты лучше всех, ${role}! 🥰`,
+                `💐 Милая ${safeName}! Пусть 8 марта принесёт тебе радость, тепло и приятные сюрпризы. Спасибо, что ты есть, моя ${role}! 🌹`,
+                `🌼 С днём 8 марта, ${safeName}! Пусть в душе всегда цветут сады, а в сердце живёт весна. Ты — настоящее вдохновение, ${role}! ✨`
+            ];
+
+            const randomIndex = Math.floor(Math.random() * greetings.length);
+            outputDiv.innerHTML = greetings[randomIndex];
+
+            createFloatingEmojis(25);
+        }
+
+        function createFloatingEmojis(count = 20) {
+            const container = document.getElementById('emojiContainer');
+            container.innerHTML = '';
+
+            const emojis = ['🌷', '🌸', '🌹', '🌺', '🌼', '🌻', '🥰', '💐', '💖', '✨', '💕', '🌿', '🐞', '🦋'];
+
+            for (let i = 0; i < count; i++) {
+                const span = document.createElement('span');
+                span.className = 'emoji-float';
+                span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+                const size = 1.5 + Math.random() * 2;
+                span.style.fontSize = size + 'rem';
+
+                span.style.left = Math.random() * 100 + '%';
+
+                const duration = 8 + Math.random() * 12;
+                span.style.animationDuration = duration + 's';
+
+                span.style.animationDelay = Math.random() * 5 + 's';
+
+                container.appendChild(span);
+            }
+        }
+    </script>
+</body>
+</html>
